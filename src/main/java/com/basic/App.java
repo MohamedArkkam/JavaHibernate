@@ -18,9 +18,12 @@ public class App
     {
         
         Alien alien = new Alien();
-        alien.setAid(102);
-        alien.setAname("ark");
-        alien.setColor("blue");
+        alien.setAid(101);
+        alien.setColor("Green");
+        AlienName aname = new AlienName();
+        aname.setFname("John");
+        aname.setLname("Doe");
+        alien.setAname(aname);
 
         Configuration configuration = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Alien.class);
 
@@ -29,13 +32,17 @@ public class App
 
         SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);    
 
-        Session session = sessionFactory.openSession();  
+        Session session = sessionFactory.openSession(); 
+        
+        session.save(alien);
 
         Transaction transaction = session.beginTransaction();
 
-        session.save(alien);
+        // alien = session.get(Alien.class, 101);
         
         transaction.commit();
+
+        System.out.println(alien);
 
     }
 }
